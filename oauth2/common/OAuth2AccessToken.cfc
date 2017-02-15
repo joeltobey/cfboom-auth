@@ -1,3 +1,12 @@
+/**
+ * @BEARER_TYPE Bearer
+ * @OAUTH2_TYPE OAuth2
+ * @ACCESS_TOKEN access_token
+ * @TOKEN_TYPE token_type
+ * @EXPIRES_IN expires_in
+ * @REFRESH_TOKEN refresh_token
+ * @SCOPE scope
+ */
 interface
     displayname="Interface OAuth2AccessToken"
 {
