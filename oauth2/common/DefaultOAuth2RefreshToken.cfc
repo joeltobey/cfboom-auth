@@ -9,6 +9,7 @@ component
 	 */
 	public cfboom.security.oauth2.common.DefaultOAuth2RefreshToken function init(required string value) {
 		_instance['value'] = arguments.value;
+		return this;
 	}
 
 	public string function getValue() {

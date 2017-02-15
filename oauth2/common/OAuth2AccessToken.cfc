@@ -45,13 +45,13 @@ interface
 
 	public string function getScope();
 
-	public cfboom.security.oauth2.common.OAuth2RefreshToken function getRefreshToken();
+	public any function getRefreshToken();
 
 	public string function getTokenType();
 
 	public boolean function isExpired();
 
-	public date function getExpiration();
+	public any function getExpiration();
 
 	public numeric function getExpiresIn();
 
