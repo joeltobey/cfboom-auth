@@ -49,7 +49,8 @@ component {
 
         // module settings - stored in modules.name.settings
         settings = {
-            strength = 10 // the log rounds to use for BCryptPasswordEncoder, between 4 and 31
+            strength = 10, // the log rounds to use for BCryptPasswordEncoder, between 4 and 31
+            loadInterceptor = false
         };
 
         // Layout Settings
@@ -88,6 +89,16 @@ component {
      */
     function onLoad() {
         wirebox.getInstance( "loader@cbjavaloader" ).appendPaths( modulePath & "/lib" );
+
+        // Verify we have settings, else ignore loading automatically
+        if ( settings.loadInterceptor ) {
+            controller.getInterceptorService()
+                .registerInterceptor(
+                interceptorClass		= "cfboom.security.interceptors.Security",
+                interceptorProperties	= settings,
+                interceptorName			= "cfboomSecurity"
+            );
+        }
     }
 
     /**
