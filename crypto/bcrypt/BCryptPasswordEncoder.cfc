@@ -32,14 +32,13 @@ component
 	property name="javaLoader" inject="loader@cbjavaloader";
 	property name="strength" inject="coldbox:setting:strength@cfboom-security";
 
-	public cfboom.security.crypto.bcrypt.BCryptPasswordEncoder function init(numeric strength) {
-		if (structKeyExists(arguments, "strength"))
-			_instance['strength'] = javaCast("int", arguments.strength);
+	public cfboom.security.crypto.bcrypt.BCryptPasswordEncoder function init(numeric strength = -1) {
+		_instance['strength'] = javaCast("int", arguments.strength);
 		return this;
 	}
 
     public void function onDIComplete() {
-        _instance['BCryptPasswordEncoder'] = javaLoader.create( "org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" ).init( structKeyExists(_instance, "strength") ? _instance.strength : javaCast("int", strength) );
+        _instance['BCryptPasswordEncoder'] = javaLoader.create( "org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" ).init( _instance.strength );
     }
 
     public string function encode(required string rawPassword) {
