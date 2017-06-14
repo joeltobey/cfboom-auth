@@ -1,7 +1,7 @@
 /**
  * Created by joeltobey on 4/14/17.
  */
-component
+component singleton
   extends="coldbox.system.Interceptor"
   displayname="Security Interceptor"
   output="false"
@@ -55,10 +55,13 @@ component
   }
 
   public void function preProcess( event, interceptData, buffer, rc, prc ) {
-    //if (!_instance.initialized)
-      //afterConfigurationLoad( argumentCollection:arguments );
 
-    //processRules( argumentCollection:arguments );
+    if (!_instance.initialized)
+      afterConfigurationLoad( argumentCollection:arguments );
+
+    // TODO: Create processRules() here that can do majority of security via rules
+    // rather than relying on application model to manage everything.
+    _instance.validator.processRules( argumentCollection:arguments );
   }
 
   private void function registerValidator(required any validator) {
