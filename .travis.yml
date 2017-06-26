@@ -7,7 +7,7 @@ services:
 
 env:
   global:
-    - RELEASE_VERSION="1.0.0"
+    - RELEASE_VERSION="1.1.0"
     - RELEASE_PLACEHOLDER="@release.number@"
     - BUILD_PLACEHOLDER="@build.number@"
 
@@ -18,34 +18,30 @@ before_install:
   - mkdir modules
   - mkdir modules/cfboom-security
   - mv apidocs/  modules/cfboom-security/
+  - mv auth/  modules/cfboom-security/
+  - mv authentication/  modules/cfboom-security/
+  - mv core/  modules/cfboom-security/
   - mv crypto/ modules/cfboom-security/
   - mv handlers/ modules/cfboom-security/
+  - mv interceptors/ modules/cfboom-security/
+  - mv ldap/ modules/cfboom-security/
   - mv lib/ modules/cfboom-security/
+  - mv oauth2/ modules/cfboom-security/
   - mv tests/ modules/cfboom-security/
   - mv views/ modules/cfboom-security/
+  - mv web/ modules/cfboom-security/
+  - mv AuthenticationExceptions.md modules/cfboom-security/
   - mv box.json modules/cfboom-security/
   - mv LICENSE modules/cfboom-security/
   - mv ModuleConfig.cfc modules/cfboom-security/
   - mv README.md modules/cfboom-security/
 
 install:
-  # create app 2x to ensure no time outs
   - box coldbox create app
-  - box coldbox create app
-  # install coldbox 2x to ensure no time outs. It skips if coldbox is already installed.
   - box install coldbox
-  - box install coldbox
-  # install testbox 2x to ensure no time outs. It skips if testbox is already installed.
   - box install testbox
-  - box install testbox
-  # install cbjavaloader 2x to ensure no time outs. It skips if cbjavaloader is already installed.
   - box install cbjavaloader
-  - box install cbjavaloader
-  # install cfboom-lang 2x to ensure no time outs. It skips if cfboom-lang is already installed.
   - box install cfboom-lang
-  - box install cfboom-lang
-  # install cfboom-util 2x to ensure no time outs. It skips if cfboom-util is already installed.
-  - box install cfboom-util
   - box install cfboom-util
   - box server start port=45123 rewritesEnable=true JVMArgs="-DcfAdminPassword=J5HIsmsWk26" openBrowser=false
 
