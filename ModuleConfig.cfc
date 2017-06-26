@@ -24,7 +24,7 @@ component {
     this.author             = "Joel Tobey";
     this.webURL             = "https://github.com/joeltobey/cfboom-security";
     this.description        = "The cfboom-security module provides overall security for your application.";
-    this.version            = "1.0.0";
+    this.version            = "1.1.0";
     // If true, looks for views in the parent first, if not found, then in the module. Else vice-versa
     this.viewParentLookup   = true;
     // If true, looks for layouts in the parent first, if not found, then in module. Else vice-versa
@@ -38,47 +38,16 @@ component {
     // Auto-map models
     this.autoMapModels      = false;
     // Module Dependencies
-    this.dependencies       = [ "cbjavaloader", "cfboom-lang", "cfboom-util" ];
+    this.dependencies       = [ "cfboom-lang", "cfboom-util" ];
 
     function configure() {
-
-        // parent settings
-        parentSettings = {
-
-        };
 
         // module settings - stored in modules.name.settings
         settings = {
             strength = 10, // the log rounds to use for BCryptPasswordEncoder, between 4 and 31
-            loadInterceptor = false
+            loadInterceptor = false,
+            whitelist = ""
         };
-
-        // Layout Settings
-        layoutSettings = {
-            defaultLayout = ""
-        };
-
-        // datasources
-        datasources = {
-
-        };
-
-        // SES Routes
-        routes = [
-            // Module Entry Point
-            { pattern="/", handler="home", action="index" },
-            // Convention Route
-            { pattern="/:handler/:action?" }
-        ];
-
-        // Custom Declared Points
-        interceptorSettings = {
-            customInterceptionPoints = ""
-        };
-
-        // Custom Declared Interceptors
-        interceptors = [
-        ];
 
         // Binder Mappings
         binder.map("BCryptPasswordEncoder@cfboomSecurity").to("cfboom.security.crypto.bcrypt.BCryptPasswordEncoder");
@@ -88,9 +57,12 @@ component {
      * Fired when the module is registered and activated.
      */
     function onLoad() {
-        wirebox.getInstance( "loader@cbjavaloader" ).appendPaths( modulePath & "/lib" );
+        try {
+            createObject("java", "org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder");
+        } catch (any ex) {
+            wirebox.getInstance( "loader@cbjavaloader" ).appendPaths( modulePath & "/lib" );
+        }
 
-        // Verify we have settings, else ignore loading automatically
         if ( settings.loadInterceptor ) {
             controller.getInterceptorService()
                 .registerInterceptor(
@@ -104,8 +76,6 @@ component {
     /**
      * Fired when the module is unregistered and unloaded
      */
-    function onUnload() {
-
-    }
+    function onUnload() {}
 
 }

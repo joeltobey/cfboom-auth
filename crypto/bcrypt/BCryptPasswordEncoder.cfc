@@ -29,8 +29,10 @@ component
     displayname="Class BCryptPasswordEncoder"
     output="false"
 {
-	property name="javaLoader" inject="loader@cbjavaloader";
 	property name="strength" inject="coldbox:setting:strength@cfboom-security";
+    property name="wirebox" inject="wirebox";
+
+    _instance['useJavaLoader'] = false;
 
 	public cfboom.security.crypto.bcrypt.BCryptPasswordEncoder function init(numeric strength = -1) {
 		_instance['strength'] = javaCast("int", arguments.strength);
@@ -38,7 +40,14 @@ component
 	}
 
     public void function onDIComplete() {
-        _instance['BCryptPasswordEncoder'] = javaLoader.create( "org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" ).init( _instance.strength );
+        try {
+            createObject("java", "com.google.gson.JsonPrimitive");
+            _instance['BCryptPasswordEncoder'] = createObject("java", "org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder").init( _instance.strength );
+        } catch (any ex) {
+            _instance['useJavaLoader'] = true;
+            _instance['javaLoader'] = wirebox.getInstance( "loader@cbjavaloader" );
+            _instance['BCryptPasswordEncoder'] = _instance.javaLoader.create( "org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" ).init( _instance.strength );
+        }
     }
 
     public string function encode(required string rawPassword) {
