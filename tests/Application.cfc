@@ -14,4 +14,5 @@ component{
     this.mappings[ "/root" ] = expandPath("/");
     this.mappings['cfboom/security'] = expandPath("/modules_app/cfboom-security");
     this.mappings['cfboom/lang'] = expandPath("/modules_app/cfboom-lang");
+    this.mappings['cfboom/util'] = expandPath("/modules_app/cfboom-util");
 }
