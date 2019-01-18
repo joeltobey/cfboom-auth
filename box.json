@@ -12,7 +12,7 @@
         "type":"git",
         "url":"https://github.com/joeltobey/cfboom-security"
     },
-    "location": "https://github.com/joeltobey/cfboom-security/releases/download/v2.0.0-alpha.1/cfboom-security-v2.0.0-alpha.1.zip",
+    "location": "https://github.com/joeltobey/cfboom-security/releases/download/v2.0.0-alpha.2/cfboom-security-v2.0.0-alpha.2.zip",
     "shortDescription":"The cfboom-security module provides overall security for your application.",
     "license":[
         {
