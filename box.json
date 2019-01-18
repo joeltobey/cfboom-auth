@@ -1,8 +1,10 @@
 {
     "name":"<cfboom/> security",
-    "version":"2.0.0-alpha.1",
+    "version":"2.0.0-alpha.2",
     "author":"Joel Tobey <joeltobey@gmail.com>",
     "slug":"cfboom-security",
+    "directory":"modules/cfboom/modules",
+    "packageDirectory":"cfboom-security",
     "type":"modules",
     "homepage":"https://github.com/joeltobey/cfboom-security",
     "documentation":"https://github.com/joeltobey/cfboom-security/wiki",
