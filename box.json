@@ -1,6 +1,6 @@
 {
     "name":"<cfboom/> security",
-    "version":"2.0.0-alpha.2",
+    "version":"2.0.0-alpha.3",
     "author":"Joel Tobey <joeltobey@gmail.com>",
     "slug":"cfboom-security",
     "directory":"modules/cfboom/modules",
@@ -12,7 +12,7 @@
         "type":"git",
         "url":"https://github.com/joeltobey/cfboom-security"
     },
-    "location": "https://github.com/joeltobey/cfboom-security/releases/download/v2.0.0-alpha.2/cfboom-security-v2.0.0-alpha.2.zip",
+    "location": "https://github.com/joeltobey/cfboom-security/releases/download/v2.0.0-alpha.3/cfboom-security-v2.0.0-alpha.3.zip",
     "shortDescription":"The cfboom-security module provides overall security for your application.",
     "license":[
         {
@@ -33,10 +33,6 @@
             "version":">9.02"
         }
     ],
-    "dependencies":{
-        "cfboom-lang":"^1.0.0",
-        "cfboom-util":"^1.1.0"
-    },
     "ignore":[
         "**/.*",
         "tests",
