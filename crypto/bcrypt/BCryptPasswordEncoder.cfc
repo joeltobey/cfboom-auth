@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Joel Tobey <joeltobey@gmail.com>.
+ * Copyright 2017-2019 Joel Tobey <joeltobey@gmail.com>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,37 +24,27 @@
  *
  */
 component
-    extends="cfboom.lang.Object"
-    implements="cfboom.security.crypto.password.PasswordEncoder"
-    displayname="Class BCryptPasswordEncoder"
-    output="false"
+  extends="cfboom.lang.Object"
+  implements="cfboom.security.crypto.password.PasswordEncoder"
+  displayname="Class BCryptPasswordEncoder"
+  output="false"
 {
-	property name="strength" inject="coldbox:setting:strength@cfboom-security";
-    property name="wirebox" inject="wirebox";
+  property name="strength" inject="coldbox:setting:strength@cfboom-security";
+  property name="javaLoader" inject="JavaLoader@cfboom-security";
 
-    _instance['useJavaLoader'] = false;
+  public cfboom.security.crypto.bcrypt.BCryptPasswordEncoder function init() {
+    return this;
+  }
 
-	public cfboom.security.crypto.bcrypt.BCryptPasswordEncoder function init(numeric strength = -1) {
-		_instance['strength'] = javaCast("int", arguments.strength);
-		return this;
-	}
+  public void function onDIComplete() {
+    variables['_BCryptPasswordEncoder'] = variables.javaLoader.create( "org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" ).init( javaCast( "int", variables.strength ) );
+  }
 
-    public void function onDIComplete() {
-        try {
-            createObject("java", "com.google.gson.JsonPrimitive");
-            _instance['BCryptPasswordEncoder'] = createObject("java", "org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder").init( _instance.strength );
-        } catch (any ex) {
-            _instance['useJavaLoader'] = true;
-            _instance['javaLoader'] = wirebox.getInstance( "loader@cbjavaloader" );
-            _instance['BCryptPasswordEncoder'] = _instance.javaLoader.create( "org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" ).init( _instance.strength );
-        }
-    }
+  public string function encode(required string rawPassword) {
+    return variables._BCryptPasswordEncoder.encode( arguments.rawPassword );
+  }
 
-    public string function encode(required string rawPassword) {
-        return _instance.BCryptPasswordEncoder.encode( arguments.rawPassword );
-    }
-
-    public boolean function matches(string rawPassword, string encodedPassword) {
-        return _instance.BCryptPasswordEncoder.matches( structKeyExists(arguments, "rawPassword") ? arguments.rawPassword : javaCast("null", ""), structKeyExists(arguments, "encodedPassword") ? arguments.encodedPassword : javaCast("null", "") );
-    }
+  public boolean function matches(string rawPassword, string encodedPassword) {
+    return variables._BCryptPasswordEncoder.matches( structKeyExists(arguments, "rawPassword") ? arguments.rawPassword : javaCast("null", ""), structKeyExists(arguments, "encodedPassword") ? arguments.encodedPassword : javaCast("null", "") );
+  }
 }
